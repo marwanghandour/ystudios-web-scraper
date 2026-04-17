@@ -32,7 +32,7 @@ A Python web scraper that extracts product data from YStudio's Spring 2026 colle
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/ystudios-web-scraper.git
+git clone https://github.com/marwanghandour/ystudios-web-scraper.git
 
 # Install requirements
 pip install -r requirements.txt

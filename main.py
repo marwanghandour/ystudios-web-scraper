@@ -12,7 +12,7 @@ def scrape_ystudios_advanced():
     }
     products_data = []
 
-    print("🚀 Starting YStudio Advanced Scraper")
+    print("Starting YStudio Advanced Scraper")
     print("=" * 50)
 
     try:
@@ -22,17 +22,15 @@ def scrape_ystudios_advanced():
 
         products = soup.find_all("li", class_="grid__item")
 
-        print(f"✅ Found {len(products)} product containers\n")
+        print(f"Found {len(products)} product containers\n")
 
         for index, product in enumerate(products, 1):
-            # Product Name
             name_element = product.find("h3", class_="card__heading")
             name = "N/A"
             if name_element:
                 name_link = name_element.find("a")
                 name = name_link.text.strip() if name_link else "N/A"
 
-            # Get ALL colors available (from color picker)
             colors = []
             color_picker = product.find("div", class_="card-information__color-picker")
             if color_picker:
@@ -42,13 +40,11 @@ def scrape_ystudios_advanced():
                     if title:
                         colors.append(title)
 
-            # Primary color (first one or from color label)
             primary_color = colors[0] if colors else "N/A"
             color_element = product.find("p", class_="card-information__color-label")
             if color_element:
                 primary_color = color_element.text.strip()
 
-            # Price
             price_element = product.find("div", class_="price")
             price = "N/A"
             if price_element:
@@ -61,10 +57,8 @@ def scrape_ystudios_advanced():
                     )
                     price = regular_price.text.strip() if regular_price else "N/A"
 
-            # Clean price (extract number)
             price_number = re.sub(r"[^0-9.]", "", price) if price != "N/A" else "0"
 
-            # Status and Badges
             badges = []
             badges_container = product.find("div", class_="card__product-badges")
             if badges_container:
@@ -81,7 +75,6 @@ def scrape_ystudios_advanced():
             elif "Restocked" in badges:
                 status = "Restocked"
 
-            # Product URL
             link_element = product.find("a", {"data-card-product-link": True})
             product_url = link_element.get("href") if link_element else "N/A"
 
@@ -102,9 +95,8 @@ def scrape_ystudios_advanced():
 
             print(f"{index:2}. {name} | Color: {primary_color} | {price} | {status}")
             if len(colors) > 1:
-                print(f"     📌 Also available in: {', '.join(colors[1:])}")
+                print(f"     Also available in: {', '.join(colors[1:])}")
 
-        # Save to CSV
         if products_data:
             os.makedirs("data", exist_ok=True)
 
@@ -126,25 +118,24 @@ def scrape_ystudios_advanced():
                 writer.writerows(products_data)
 
             print("\n" + "=" * 50)
-            print("✅ SCRAPING COMPLETE!")
-            print(f"📊 Total products: {len(products_data)}")
+            print(" SCRAPING COMPLETE!")
+            print(f" Total products: {len(products_data)}")
 
-            # Price statistics
             prices = [
                 float(p["Price_Numeric"])
                 for p in products_data
                 if p["Price_Numeric"] != "0"
             ]
             if prices:
-                print(f"💰 Average price: LE {sum(prices) / len(prices):.2f}")
-                print(f"💎 Most expensive: LE {max(prices):.2f}")
-                print(f"💷 Cheapest: LE {min(prices):.2f}")
+                print(f" Average price: LE {sum(prices) / len(prices):.2f}")
+                print(f" Most expensive: LE {max(prices):.2f}")
+                print(f"Cheapest: LE {min(prices):.2f}")
 
-            print("💾 Saved to: data/ystudios_products_detailed.csv")
+            print("Saved to: data/ystudios_products_detailed.csv")
             print("=" * 50)
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":

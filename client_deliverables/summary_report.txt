@@ -1,0 +1,11 @@
+DATA SCRAPING SUMMARY REPORT
+========================================
+Generated: 2026-04-21 15:45:33
+Total records: 12
+Total columns: 8
+Columns: Name, Primary_Color, All_Colors, Price, Price_Numeric, Status, Badges, Product_URL
+
+FILES INCLUDED:
+  - clean_data.csv: All data in CSV format
+  - complete_report.xlsx: Excel report with multiple sheets
+  - ystudios_products_detailed.csv: Original scraped data
